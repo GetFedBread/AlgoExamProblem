@@ -6,6 +6,7 @@ start_time = time.time_ns()
 n = int(input())
 
 L = list(map(int, input().split()))
+s = {}
 
 greatest = 0
 mem = {}
@@ -21,35 +22,45 @@ def check(lefti, righti, lo, hi, current):
         return current
     # Getting a greater value than what is already found is impossible
     if righti - lefti + 1 + current < greatest or (lo != None and lo - 1 + (n - hi) + current  < greatest):
-        return current
+        return -1
     if args in mem:
         return mem[args] + current
 
-    result = 0
-
+    takeres = -1
     # Take left card
     if lo == None:
-        result = check(lefti+1, righti, L[lefti], L[lefti], current+1)
+        takeres = check(lefti+1, righti, L[lefti], L[lefti], current+1)
     elif L[lefti] < lo:
-        result = check(lefti+1, righti, L[lefti], hi, current+1)
+        takeres = check(lefti+1, righti, L[lefti], hi, current+1)
     elif L[lefti] > hi:
-        result = check(lefti+1, righti, lo, L[lefti], current+1)
-    
-    # Discard left card
-    result = max(check(lefti+1, righti, lo, hi, current), result)
+        takeres = check(lefti+1, righti, lo, L[lefti], current+1)
     
     # Take right card
     if hi == None:
-        result = max(check(lefti, righti-1, L[righti], L[righti], current+1), result)
+        takeres = max(check(lefti, righti-1, L[righti], L[righti], current+1), takeres)
     elif L[righti] < lo:
-        result = max(check(lefti, righti-1, L[righti], hi, current+1), result)
+        takeres = max(check(lefti, righti-1, L[righti], hi, current+1), takeres)
     elif L[righti] > hi:
-        result = max(check(lefti, righti-1, lo, L[righti], current+1), result)
+        takeres = max(check(lefti, righti-1, lo, L[righti], current+1), takeres)
     
+    discres = -1
+    # Discard left card
+    discres = check(lefti+1, righti, lo, hi, current)
     # Discard right card
-    result = max(check(lefti, righti-1, lo, hi, current), result)
+    discres = max(check(lefti, righti-1, lo, hi, current), discres)
 
-    mem[args] = result - current
+    # Max from left & right is the result
+    result = max(takeres, discres)
+    if result > -1:
+        mem[args] = result - current
+    else:
+        if args in s:
+            print("seen before", s[args], "times!")
+        print("rejected:", args, "with score", current)
+        if args not in s:
+            s[args] = 0
+        s[args] += 1
+    
     if result > greatest:
         greatest = result
     return result
