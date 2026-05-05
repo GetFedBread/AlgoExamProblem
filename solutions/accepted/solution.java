@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class solution {
     public static int[] cards;
     public static void main(String[] args) {
-        long start_time = System.nanoTime();
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             int n = Integer.parseInt(reader.readLine());
             String[] cards_in = reader.readLine().split(" ");
@@ -16,9 +15,8 @@ public class solution {
             }
             System.out.println(check(0, n-1, -1, -1));
         } catch (Exception e) {
-
+            // uh-oh!
         }
-        System.out.println("Time: "+(System.nanoTime() - start_time));
     }
 
     static HashMap<Tuple, Integer> mem = new HashMap<>();
@@ -60,7 +58,8 @@ public class solution {
     }
 }
 
-class Tuple implements Comparable<Tuple> {
+// A bit overkill, maybe
+class Tuple {
     int[] values;
 
     public Tuple(int... values) {
@@ -77,17 +76,7 @@ class Tuple implements Comparable<Tuple> {
     }
 
     @Override
-    public int compareTo(Tuple t) {
-        return Arrays.compare(values, t.values);
-    }
-
-    @Override
     public int hashCode() {
         return Arrays.hashCode(values);
-    }
-
-    public static Tuple max(Tuple t1, Tuple t2) {
-        if(t1.compareTo(t2) > 0) return t1;
-        return t2;
     }
 }

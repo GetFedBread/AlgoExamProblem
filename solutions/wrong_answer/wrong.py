@@ -1,8 +1,6 @@
 import sys
-import time
 sys.setrecursionlimit(1_000_000)
 
-start_time = time.time_ns()
 n = int(input())
 
 L = list(map(int, input().split()))
@@ -67,5 +65,3 @@ def check(lefti, righti, lo, hi, current):
 
 
 print(check(0, n-1, None, None, 0))
-
-print("time: "+str(time.time_ns() - start_time))
