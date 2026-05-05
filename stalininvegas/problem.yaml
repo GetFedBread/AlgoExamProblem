@@ -1,0 +1,11 @@
+problem_format_version: legacy
+type: pass-fail
+uuid: 28518b3c-c0df-473b-b08c-ce3eb42cd414
+license: cc0
+author: Ludvig Kirkeby, Olga Dvorakova, Peter Hæstrup
+
+name: Stalin goes to vegas
+
+limits:
+  time_safety_margin: 1.0
+  time_multiplier: 2.0

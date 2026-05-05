@@ -6,4 +6,4 @@ l = [str(i+1) for i in range(n)]
 shuffle(l)
 
 print(n)
-print(" ".join(l))
+print(" ".join(l), end="")
