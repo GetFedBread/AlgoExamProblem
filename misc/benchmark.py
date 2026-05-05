@@ -8,6 +8,7 @@ import subprocess
 import time
 import random
 import argparse
+import math
 
 
 def generate_input(n: int) -> str:
@@ -42,15 +43,21 @@ def main():
     args = parser.parse_args()
 
     total = 0.0
+    max_t = 0
+    min_t = math.inf
 
     for i in range(args.runs):
         inp = generate_input(args.n)
         t = run_once(args.cmd, inp)
         total += t
+        max_t = max(t, max_t)
+        min_t = min(t, min_t)
         print(f"Run {i+1}: {t:.6f}s")
 
     print("\n--- Summary ---")
     print(f"Runs: {args.runs}")
+    print(f"Min time: {min_t:.6f}s")
+    print(f"Max time: {max_t:.6f}s")
     print(f"Avg time: {total / args.runs:.6f}s")
     print(f"Total time: {total:.6f}s")
 
